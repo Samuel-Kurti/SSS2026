@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Demo - Nginx Container</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #0f172a; color: #f8fafc; }
+    .card { background: #1e293b; padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border: 1px solid #334155; }
+    h2 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+    p.sub { font-size: 0.875rem; color: #94a3b8; margin-bottom: 1.5rem; }
+    .field { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.8rem; margin-bottom: 0.35rem; color: #cbd5e1; }
+    input { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 0.95rem; }
+    input:focus { outline: none; border-color: #38bdf8; ring: 2px solid #38bdf8; }
+    button { width: 100%; padding: 0.75rem; border-radius: 6px; border: none; background: #0284c7; color: white; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
+    button:hover { background: #0369a1; }
+    #status { margin-top: 1rem; font-size: 0.875rem; text-align: center; min-height: 1.25rem; }
+    .success { color: #4ade80; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Accedi</h2>
+    <p class="sub">Servito dal container Nginx</p>
+    <form id="login-form">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" required autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+      </div>
+      <button type="submit">Entra</button>
+    </form>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value;
+
+      status.className = '';
+      status.textContent = 'Verifica in corso...';
+
+      setTimeout(() => {
+        // Simulazione validazione credenziali
+        if (user === 'admin' && pass === 'secret') {
+          status.className = 'success';
+          status.textContent = `Benvenuto, ${user}! Sessione avviata.`;
+          form.reset();
+        } else {
+          status.className = 'error';
+          status.textContent = 'Credenziali non valide (prova: admin / secret)';
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
